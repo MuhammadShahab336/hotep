@@ -12,8 +12,10 @@ import {
 } from "@nextui-org/react";
 import {AcmeLogo} from "@/const/svg";
 
+
+
 export default function Layout() {
-    const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+    const [isMenuOpen, setIsMenuOpen] = React.useState(true);
 
     const menuItems = [
         "Profile",
@@ -28,45 +30,46 @@ export default function Layout() {
         "Log Out",
     ];
 
-    return (
-        <Navbar onMenuOpenChange={setIsMenuOpen}>
-            <NavbarContent>
-                <NavbarMenuToggle
-                    aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-                    // className="sm:hidden"
-                />
-                <NavbarBrand>
-                    <AcmeLogo />
-                    <p className="font-bold text-inherit">ACME</p>
-                </NavbarBrand>
-            </NavbarContent>
+    const Nav = (props) => {
+        return (
+            <ul className={`p-1 mt-4 flex flex-col  ${isMenuOpen ? '' : 'items-center'}`}>
+                {props.children}
+            </ul>
+        )
+    }
 
-            <NavbarContent justify="end">
-                <NavbarItem className="hidden lg:flex">
-                    <Link href="#">Login</Link>
-                </NavbarItem>
-                <NavbarItem>
-                    <Button as={Link} color="primary" href="#" variant="flat">
-                        Sign Up
-                    </Button>
-                </NavbarItem>
-            </NavbarContent>
-            <NavbarMenu>
-                {menuItems.map((item, index) => (
-                    <NavbarMenuItem key={`${item}-${index}`}>
-                        <Link
-                            color={
-                                index === 2 ? "primary" : index === menuItems.length - 1 ? "danger" : "foreground"
-                            }
-                            className="w-full"
-                            href="#"
-                            size="lg"
-                        >
-                            {item}
-                        </Link>
-                    </NavbarMenuItem>
-                ))}
-            </NavbarMenu>
-        </Navbar>
+    const NavItem = (props) => {
+        return (
+            <li className="text-[#ddd] py-2 px-3 rounded-xl duration-250 hover:bg-primary-500 hover:shadow cursor-pointer">
+                {props.children}
+            </li>
+        )
+    }
+
+    return (
+        <>
+            <div className="flex">
+                <div className={`bg-[#333] h-screen p-3 relative duration-300 overflow-auto ${isMenuOpen ? ' w-72' : 'w-20'}`}>
+                    <div
+                        class="w-[20px] h-[20px] rounded-[200px] border border-[#333] bg-white absolute -right-2 top-2 cursor-pointer"
+                        onClick={() => setIsMenuOpen(!isMenuOpen)}
+                    />
+                    <Nav>
+                        {menuItems?.map((item) => (
+                            <NavItem>
+                                {isMenuOpen ? item : item[0]}
+                            </NavItem>
+                        ))}
+                    </Nav>
+                    <ul className={`p-1 mt-4 flex flex-col  ${isMenuOpen ? '' : 'items-center'}`}>
+                        {menuItems?.map((item) => (
+                            <li key={item} className="text-[#ddd] py-2 px-3 rounded-xl duration-250 hover:bg-primary-500 hover:shadow cursor-pointer">
+                                {isMenuOpen ? item : item[0]}
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            </div>
+        </>
     );
 }

@@ -1,6 +1,7 @@
 
 import NextAuth from 'next-auth'
 import CredentialsProvider from "next-auth/providers/credentials";
+import process from "next/dist/build/webpack/loaders/resolve-url-loader/lib/postcss";
 
 const authOptions = {
     providers: [
@@ -8,7 +9,7 @@ const authOptions = {
             type: 'credentials',
             credentials: {},
             async authorize(credentials, req){
-                const res = await fetch(`http://${window.location.host}/api/auth/login`, {
+                const res = await fetch(`${process.env.BASE_URL}/api/auth/login`, {
                     method: 'POST',
                     body: JSON.stringify(credentials),
                     headers: { "Content-Type": "application/json" }
