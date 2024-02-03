@@ -40,7 +40,7 @@ export default function Layout() {
 
     const NavItem = (props) => {
         return (
-            <li className="text-[#ddd] py-2 px-3 rounded-xl duration-250 hover:bg-primary-500 hover:shadow cursor-pointer">
+            <li className="text-[#ddd] py-2 px-3 rounded-xl duration-250 hover:bg-primary-500 hover:shadow cursor-pointer" {...props}>
                 {props.children}
             </li>
         )
@@ -56,7 +56,7 @@ export default function Layout() {
                     />
                     <Nav>
                         {menuItems?.map((item) => (
-                            <NavItem>
+                            <NavItem key={item}>
                                 {isMenuOpen ? item : item[0]}
                             </NavItem>
                         ))}
